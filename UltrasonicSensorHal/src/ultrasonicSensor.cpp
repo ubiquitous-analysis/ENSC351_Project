@@ -60,7 +60,7 @@ double ultrasonicSensor::calculateDistance(long long waitTimeUS){
 }
 
 void ultrasonicSensor::outputPulse( int lengthUS, int pinOut){
-    Serial.println("Got to the output pulse");
+    //Serial.println("Got to the output pulse");
     digitalWrite(pinOut, HIGH);
     delayMicroseconds(lengthUS);
     digitalWrite(pinOut, LOW);

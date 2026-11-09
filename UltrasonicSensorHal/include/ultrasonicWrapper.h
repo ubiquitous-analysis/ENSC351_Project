@@ -11,14 +11,18 @@
 
 class ultrasonicWrapper : ultrasonicSensor{
     public: 
-        // initializes both sensors
+        // initializes both sensors, also calibrates the sensors
+        // Calibration can be repeated without errors after initialization
         void ultrasonicWrapper_initialize(const int S1_PIN_MISO, const int S1_PIN_MOSI, const int S2_PIN_MISO, const int S2_PIN_MOSI);
-        // one sensor at a time, uses moving average to calibrate distance for 1s each
+        // Uses moving average to find the moving average distance for 1s each
         void ultrasonicWrapper_calibrateSensors();
         // calls sensor cleanup functions
         void ultrasonicWrapper_cleanupSensors();
-
-        int ultrasonicWrapper_readValues(); // returns 1 on detection, 0 on nothing, -1 on timeout (1s)
+        // continuously gets values from both sensors for 1s
+        // returns 1 on detection, 0 on timeout, -1 on error
+        int ultrasonicWrapper_readValues(); 
+        double ultrasonicWrapper_S1_getCalibratedDistance();
+        double ultrasonicWrapper_S2_getCalibratedDistance();
 
 
 

@@ -15,6 +15,7 @@ class ultrasonicSensor{
     // There must be at least 50us between calls of this function
     // This function turns off interrupts to get exact timeing
     // returns -1 on timeout (1s)
+    // returns -2 when the distance is multiple times the calibrated distance
     double ultrasonic_getDistance();
 
     private:
