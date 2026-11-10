@@ -1,0 +1,1 @@
+/usr/bin/aarch64-linux-gnu-gcc -g -Wl,--dependency-file=CMakeFiles/myProgram.dir/link.d CMakeFiles/myProgram.dir/src/main.c.o -o myProgram  libhal.a /usr/lib/aarch64-linux-gnu/libgpiod.so

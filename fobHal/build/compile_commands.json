@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/nathan/ensc351/work/ENSC351/Project/a2/hal/build",
+  "command": "/usr/bin/aarch64-linux-gnu-gcc  -I/home/nathan/ensc351/work/ENSC351/Project/a2/hal/include -g -o CMakeFiles/hal.dir/src/fob.c.o -c /home/nathan/ensc351/work/ENSC351/Project/a2/hal/src/fob.c",
+  "file": "/home/nathan/ensc351/work/ENSC351/Project/a2/hal/src/fob.c",
+  "output": "CMakeFiles/hal.dir/src/fob.c.o"
+},
+{
+  "directory": "/home/nathan/ensc351/work/ENSC351/Project/a2/hal/build",
+  "command": "/usr/bin/aarch64-linux-gnu-gcc  -I/home/nathan/ensc351/work/ENSC351/Project/a2/hal/include -g -o CMakeFiles/hal.dir/src/main.c.o -c /home/nathan/ensc351/work/ENSC351/Project/a2/hal/src/main.c",
+  "file": "/home/nathan/ensc351/work/ENSC351/Project/a2/hal/src/main.c",
+  "output": "CMakeFiles/hal.dir/src/main.c.o"
+},
+{
+  "directory": "/home/nathan/ensc351/work/ENSC351/Project/a2/hal/build",
+  "command": "/usr/bin/aarch64-linux-gnu-gcc  -I/home/nathan/ensc351/work/ENSC351/Project/a2/hal/include -g -o CMakeFiles/testFob.dir/src/main.c.o -c /home/nathan/ensc351/work/ENSC351/Project/a2/hal/src/main.c",
+  "file": "/home/nathan/ensc351/work/ENSC351/Project/a2/hal/src/main.c",
+  "output": "CMakeFiles/testFob.dir/src/main.c.o"
+}
+]

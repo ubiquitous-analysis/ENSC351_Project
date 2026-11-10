@@ -1,0 +1,4 @@
+/home/nathan/ensc351/work/ENSC351/Project/a2/hal/build/CMakeFiles/hal.dir
+/home/nathan/ensc351/work/ENSC351/Project/a2/hal/build/CMakeFiles/testFob.dir
+/home/nathan/ensc351/work/ENSC351/Project/a2/hal/build/CMakeFiles/edit_cache.dir
+/home/nathan/ensc351/work/ENSC351/Project/a2/hal/build/CMakeFiles/rebuild_cache.dir

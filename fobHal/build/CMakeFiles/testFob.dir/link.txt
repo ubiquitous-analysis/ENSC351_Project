@@ -1,0 +1,1 @@
+/usr/bin/aarch64-linux-gnu-gcc -g -Wl,--dependency-file=CMakeFiles/testFob.dir/link.d CMakeFiles/testFob.dir/src/main.c.o -o /home/nathan/ensc351/public/testFob  libhal.a /usr/lib/aarch64-linux-gnu/libgpiod.so
