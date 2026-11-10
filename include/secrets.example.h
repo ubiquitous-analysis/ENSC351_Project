@@ -1,0 +1,8 @@
+#ifndef _SECRETS_EX_H_
+#define _SECRETS_EX_H_
+
+#define SECRET_SSID "YOUR_WIFI_SSID"
+#define SECRET_PASS "YOUR_WIFI_PASSWORD"
+#define SECRET_TARGET_IP "192.168.1.100"
+
+#endif
