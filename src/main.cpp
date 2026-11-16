@@ -34,9 +34,9 @@ void loop() {
 		network_send_hitDetector(isHit);
 	}
 
+	// Scan ultrasonic sensor for distances
 	int ultrasonicDistances[2];
 	if (w1.ultrasonicWrapper_readValues(ultrasonicDistances) == 1) {
 		network_send_ultrasonic(ultrasonicDistances);
 	}
-
 }
