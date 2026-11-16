@@ -7,6 +7,7 @@
 class ultrasonicSensor{
     public:
     // Sets initialization flag, sets pins to output mode
+    // MISO is the ECHO pin, MOSI is the TRIG pin
     void ultrasonic_initialize(const int PIN_MISO, const int PIN_MOSI);
     // Clears initialization flag, 
     void ultrasonic_cleanup();

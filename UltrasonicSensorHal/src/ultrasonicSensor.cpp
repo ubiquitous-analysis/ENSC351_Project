@@ -24,6 +24,7 @@ void ultrasonicSensor::ultrasonic_cleanup(){
 
 double ultrasonicSensor::ultrasonic_getDistance(){
   assert(isInitialized);
+  Serial.println("I got to the ultrasonic sensor, and now I am getting the distance!!");
   // IMPORTANT - there should not be less than 50us in between the rising edges of the get distance calls.
 
   outputPulse(50,TRIG_pin);
