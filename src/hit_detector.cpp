@@ -42,7 +42,8 @@ void hitDetector_init(void) {
     baseline = sum / CALIBRATION_SAMPLES;
     lastHitMs = millis() - COOLDOWN_MS; // do this so cooldown check passes immediately
     armed = true; // ensures armed
-    // hitCount = 0;
+    delay(100);
+	Serial.println("HITDETECTOR INIT DONE");
 }
 
 // flow for detecting hits and updating baseline 
@@ -78,7 +79,7 @@ bool hitDetector_scan(bool *isHit) {
         // check if the disturbance is greater than our hit threshold
         armed = false;
         lastHitMs = now;
-        Serial.printf("HIT DETECTED: delta = %.2fg\n", delta);
+        Serial.printf("HIT DETECTED: delta = %.2fg\n", delta); 
         if (isHit != nullptr) { // double checks whether isHit traces to valid memory block
             *isHit = true;
         }
