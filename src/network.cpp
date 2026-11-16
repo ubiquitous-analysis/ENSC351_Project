@@ -3,7 +3,6 @@
 #include <WiFiUdp.h>
 #include "network.h"
 #include "secrets.h"
-#include "hit_detector.h"
 
 // Networking settings
 static const char* ssid = SECRET_SSID;

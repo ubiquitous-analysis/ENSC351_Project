@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "breakbeam.h"
 
-const int SENSOR_PIN = 27;
+static const int SENSOR_PIN = 27;
 static int lastReading = -1;
 
 void breakbeam_init(void) {

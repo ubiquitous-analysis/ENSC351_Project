@@ -1,17 +1,25 @@
 #include "ultrasonicWrapper.h"
 #include <Arduino.h>
+
 #define CALIBRATED_COUNT 15
 #define LEARNING_CONTANT 0.95 // the fraction of the previous value that is kept when calibrating
 #define DETECTION_FRACTION 0.95 // the percentage of the distance that has to be different from the normal sensor reading to detect
 #define ERROR_COEFFICIENT 2 // the amount further than the calibrated distance for the sensors to report an error
 #define REPEAT_COUNT 2 // the number of times in a row the sensor has to get a reading to register it
 
-void ultrasonicWrapper::ultrasonicWrapper_initialize(const int S1_PIN_MISO, const int S1_PIN_MOSI, const int S2_PIN_MISO, const int S2_PIN_MOSI){
+// Hardware pins
+static const int S1_PIN_MISO 23;
+static const int S1_PIN_MOSI 22;
+static const int S2_PIN_MISO 21;
+static const int S2_PIN_MOSI 19;
+
+void ultrasonicWrapper::ultrasonicWrapper_initialize(void){
     s1.ultrasonic_initialize(S1_PIN_MISO, S1_PIN_MOSI);
     s2.ultrasonic_initialize(S2_PIN_MISO, S2_PIN_MOSI);
     ultrasonicWrapper_calibrateSensors();
+    delay(100);
+    Serial.println("ULTRASONIC INIT DONE");
 }
-
 
 void ultrasonicWrapper::ultrasonicWrapper_cleanupSensors(){
     s1.ultrasonic_cleanup();
@@ -44,11 +52,12 @@ void ultrasonicWrapper::ultrasonicWrapper_calibrateSensors(){
     }
     Serial.println("Ultrasonic Sensor Calibration Complete!");
     return;
-
 }
+
 double ultrasonicWrapper::ultrasonicWrapper_S1_getCalibratedDistance(){
     return s1_calibrated_distance;
 }
+
 double ultrasonicWrapper::ultrasonicWrapper_S2_getCalibratedDistance(){
     return s2_calibrated_distance;
 }
@@ -100,3 +109,4 @@ int ultrasonicWrapper::ultrasonicWrapper_readValues(){
     }
     return -1;
 }
+

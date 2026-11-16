@@ -1,5 +1,3 @@
-
-
 #include "ultrasonicSensor.h"
 #include <Arduino.h>
 #include <cassert>

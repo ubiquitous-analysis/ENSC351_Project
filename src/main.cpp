@@ -2,12 +2,15 @@
 #include "rfid.h"
 #include "breakbeam.h"
 #include "hit_detector.h"
+#include "ultrasonicWrapper.h"
 
 void setup() {
 	network_init();
 	rfid_init();
 	breakbeam_init();
 	hitDetector_init();
+	ultrasonicWrapper w1;
+	w1.ultrasonicWrapper_initialize()
 }
 
 void loop() {

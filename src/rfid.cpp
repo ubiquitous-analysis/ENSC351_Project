@@ -2,7 +2,7 @@
 #include "rfid.h"
 
 // Hardware pins
-const int RFID_PIN = 33; // GPIO33; D33 pin for input (tx)
+static const int RFID_PIN = 33; // GPIO33; D33 pin for input (tx)
 
 // RFID sensor settings
 /*==========================================================================
