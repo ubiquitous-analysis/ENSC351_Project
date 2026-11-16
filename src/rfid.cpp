@@ -2,7 +2,7 @@
 #include "rfid.h"
 
 // Hardware pins
-const int rfidPin = 33; // GPIO33; D33 pin for input (tx)
+const int RFID_PIN = 33; // GPIO33; D33 pin for input (tx)
 
 // RFID sensor settings
 /*==========================================================================
@@ -26,8 +26,8 @@ static long hexstr_to_value(char *str, unsigned int length);
 
 void rfid_init(void) {
 	// RFID sensor initialization
-	ssrfid.begin(9600, SERIAL_8N1, rfidPin, -1); // Start HardwareSerial on RX=33, TX disabled (-1), with serial data = 8 bits, no parity, 1 stop bit
-	delay(1000);
+	ssrfid.begin(9600, SERIAL_8N1, RFID_PIN, -1); // Start HardwareSerial on RX=33, TX disabled (-1), with serial data = 8 bits, no parity, 1 stop bit
+	delay(100);
 	Serial.println("RFID INIT DONE");
 }
 

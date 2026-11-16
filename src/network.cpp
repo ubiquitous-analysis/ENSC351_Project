@@ -47,3 +47,22 @@ bool network_send_rfid(unsigned long tag) {
         return false;
 	}
 }
+
+bool network_send_breakbeam(bool broken) {
+	if (WiFi.status() != WL_CONNECTED) {
+        Serial.println("WiFi not connected. Cannot send UDP.");
+        return false;
+    }
+
+    // UDP integration to send packets on local network
+	udp.beginPacket(targetIP, udpPort);
+	udp.printf("BREAKBEAM STATUS:%s\n", broken ? "BROKEN" : "UNBROKEN");
+
+	if (udp.endPacket() == 1) {
+		Serial.println("UDP packet sent sucessfully");
+        return true;
+	} else {
+		Serial.println("UDP transmission failed");
+        return false;
+	}
+}
