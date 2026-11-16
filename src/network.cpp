@@ -12,9 +12,18 @@ static const char* targetIP = SECRET_TARGET_IP; // currently to Vivobook S14
 static const int udpPort = 12345;
 static WiFiUDP udp;
 
+// Creating Mutex handle
+static SemaphoreHandle_t udpMutex = NULL;
+
 void network_init(void) {
     // Initializing serial monitor
 	Serial.begin(9600);
+
+	// Initializing Mutex
+	udpMutex = xSemaphoreCreateMutex();
+	if (udpMutex == NULL) {
+		Serial.println("UDP Mutex creation failed");
+	}
 
 	// Wifi setup
 	WiFi.mode(WIFI_STA); // Station mode (can declare as Access Point (AP) if needed)
@@ -36,16 +45,16 @@ bool network_send_rfid(unsigned long tag) {
         return false;
     }
 
-    // UDP integration to send packets on local network
-	udp.beginPacket(targetIP, udpPort);
-	udp.printf("RFID_TAG:%lu\n", tag);
+	if (xSemaphoreTake(udpMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+		// UDP integration to send packets on local network
+		udp.beginPacket(targetIP, udpPort);
+		udp.printf("RFID_TAG:%lu\n", tag);
 
-	if (udp.endPacket() == 1) {
-		Serial.println("UDP packet sent sucessfully");
-        return true;
-	} else {
-		Serial.println("UDP transmission failed");
-        return false;
+		bool success = (udp.endPacket() == 1);
+		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
+
+		xSemaphoreGive(udpMutex); // Always released
+		return success;
 	}
 }
 
@@ -55,16 +64,16 @@ bool network_send_breakbeam(bool broken) {
         return false;
     }
 
-    // UDP integration to send packets on local network
-	udp.beginPacket(targetIP, udpPort);
-	udp.printf("BREAKBEAM STATUS:%s\n", broken ? "BROKEN" : "UNBROKEN");
+	if (xSemaphoreTake(udpMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+		// UDP integration to send packets on local network
+		udp.beginPacket(targetIP, udpPort);
+		udp.printf("BREAKBEAM STATUS:%s\n", broken ? "BROKEN" : "UNBROKEN");
 
-	if (udp.endPacket() == 1) {
-		Serial.println("UDP packet sent sucessfully");
-        return true;
-	} else {
-		Serial.println("UDP transmission failed");
-        return false;
+		bool success = (udp.endPacket() == 1);
+		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
+		
+		xSemaphoreGive(udpMutex); // Always released
+		return success;
 	}
 }
 
@@ -74,16 +83,16 @@ bool network_send_hitDetector(bool hit) {
         return false;
     }
 
-    // UDP integration to send packets on local network
-	udp.beginPacket(targetIP, udpPort);
-	udp.printf("HIT DETECTED:%s\n", hit ? "YES" : "NO");
+	if (xSemaphoreTake(udpMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+		// UDP integration to send packets on local network
+		udp.beginPacket(targetIP, udpPort);
+		udp.printf("HIT DETECTED:%s\n", hit ? "YES" : "NO");
 
-	if (udp.endPacket() == 1) {
-		Serial.println("UDP packet sent sucessfully");
-        return true;
-	} else {
-		Serial.println("UDP transmission failed");
-        return false;
+		bool success = (udp.endPacket() == 1);
+		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
+		
+		xSemaphoreGive(udpMutex); // Always released
+		return success;
 	}
 }
 
@@ -93,16 +102,16 @@ bool network_send_ultrasonic(const int distances[2]) {
         return false;
     }
 
-    // UDP integration to send packets on local network
-	udp.beginPacket(targetIP, udpPort);
-	udp.printf("ULTRASONIC SENSOR DISTANCES:%d, %d\n", distances[0], distances[1]);
+	if (xSemaphoreTake(udpMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+		// UDP integration to send packets on local network
+		udp.beginPacket(targetIP, udpPort);
+		udp.printf("ULTRASONIC SENSOR DISTANCES:%d, %d\n", distances[0], distances[1]);
 
-	if (udp.endPacket() == 1) {
-		Serial.println("UDP packet sent sucessfully");
-        return true;
-	} else {
-		Serial.println("UDP transmission failed");
-        return false;
+		bool success = (udp.endPacket() == 1);
+		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
+		
+		xSemaphoreGive(udpMutex); // Always released
+		return success;
 	}
 }
 
@@ -112,15 +121,15 @@ bool network_send_fob(enum fobSignal signal) {
         return false;
     }
 
-    // UDP integration to send packets on local network
-	udp.beginPacket(targetIP, udpPort);
-	udp.printf("FOB KEY PRESSED: %s\n", signal);
+	if (xSemaphoreTake(udpMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+		// UDP integration to send packets on local network
+		udp.beginPacket(targetIP, udpPort);
+		udp.printf("FOB KEY PRESSED: %s\n", signal);
 
-	if (udp.endPacket() == 1) {
-		Serial.println("UDP packet sent sucessfully");
-        return true;
-	} else {
-		Serial.println("UDP transmission failed");
-        return false;
+		bool success = (udp.endPacket() == 1);
+		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
+		
+		xSemaphoreGive(udpMutex); // Always released
+		return success;
 	}
 }
