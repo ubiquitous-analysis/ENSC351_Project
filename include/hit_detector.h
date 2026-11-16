@@ -10,16 +10,11 @@ void hitDetector_init(void);
 
 // gets sample, converts to magnitude, subtracts the baseline to get the change
 // if its 'quiet' or still it updates the baseline
-// if it can detect a hit it updates the hitcount and initializes all varibles 
+// if it can detect a hit it returns true and initializes all varibles 
 // for cooldown period
 // if it cannot detect a hit (in cooldown) then it checks if its been at rest long 
 // enough or if the cooldown time has expired
-void hitDetector_update(void);
 
-// returns hit count and resets it
-int hitDetector_hit(void);
-
-// hit detector game logic
-
+bool hitDetector_scan(bool *isHit);
 
 #endif

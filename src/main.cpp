@@ -1,8 +1,6 @@
 #include "network.h"
 #include "rfid.h"
 #include "breakbeam.h"
-#include "accelerometer.h"
-#include "adc.h"
 #include "hit_detector.h"
 
 void setup() {
@@ -25,10 +23,10 @@ void loop() {
 		network_send_breakbeam(isBroken);
 	}
 
-	// Scan accelerometer
-	hitDetector_update();
-	if (hitDetector_hit()
-
-	// Scan accelerometer for impact
+	// Scan hit detector (accelerometer + onboard ADC)
+	bool isHit = false; // output buffer; value not actually used
+	if (hitDetector_scan(&isHit)) {
+		network_send_hitDetector(isHit);
+	}
 
 }

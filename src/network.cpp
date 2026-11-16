@@ -68,7 +68,7 @@ bool network_send_breakbeam(bool broken) {
 	}
 }
 
-bool network_send_accelerometer(bool hit) {
+bool network_send_hitDetector(bool hit) {
 	if (WiFi.status() != WL_CONNECTED) {
         Serial.println("WiFi not connected. Cannot send UDP.");
         return false;
