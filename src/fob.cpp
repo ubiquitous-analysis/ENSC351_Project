@@ -32,7 +32,7 @@ void fob_init(void){
     Serial.println("FOB INIT DONE");
 }
 
-enum fobSignal fob_listen(){
+bool fob_listen(enum fobSignal *isPressed){ // change type to bool, parameter becomes fobsignal
     for (int i = 0; i < NUM_PINS; i++) { // Scan all pins for rising edge
         int currentState = digitalRead(fobPins[i]);
 
@@ -42,11 +42,12 @@ enum fobSignal fob_listen(){
 
             enum fobSignal fobSig = fobReturnValue((struct signalInfo){type, fobPins[i]});
             if (fobSig != NONE) {
-                return fobSig;
+                *isPressed = fobSig; // Save enum value to variable
+                return true;
             }
         }
     }
-    return NONE; // no change? return nothing (fob not transmitting)
+    return false; // no change? return nothing (fob not transmitting)
 }
 
 static enum fobSignal fobReturnValue(struct signalInfo sigInfo){

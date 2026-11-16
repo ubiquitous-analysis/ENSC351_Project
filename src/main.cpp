@@ -4,6 +4,7 @@
 #include "breakbeam.h"
 #include "hit_detector.h"
 #include "ultrasonicWrapper.h"
+#include "fob.h"
 
 ultrasonicWrapper w1;
 
@@ -13,6 +14,7 @@ void setup() {
 	breakbeam_init();
 	hitDetector_init();
 	w1.ultrasonicWrapper_initialize();
+	fob_init();
 }
 
 void loop() {
@@ -38,5 +40,11 @@ void loop() {
 	int ultrasonicDistances[2];
 	if (w1.ultrasonicWrapper_readValues(ultrasonicDistances) == 1) {
 		network_send_ultrasonic(ultrasonicDistances);
+	}
+
+	// Scan remote fob for button presses
+	enum fobSignal isPressed;
+	if (fob_listen(&isPressed)){
+		network_send_fob(isPressed);
 	}
 }

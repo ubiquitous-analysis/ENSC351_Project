@@ -3,6 +3,7 @@
 #include <WiFiUdp.h>
 #include "network.h"
 #include "secrets.h"
+#include "fob.h"
 
 // Networking settings
 static const char* ssid = SECRET_SSID;
@@ -95,6 +96,25 @@ bool network_send_ultrasonic(const int distances[2]) {
     // UDP integration to send packets on local network
 	udp.beginPacket(targetIP, udpPort);
 	udp.printf("ULTRASONIC SENSOR DISTANCES:%d, %d\n", distances[0], distances[1]);
+
+	if (udp.endPacket() == 1) {
+		Serial.println("UDP packet sent sucessfully");
+        return true;
+	} else {
+		Serial.println("UDP transmission failed");
+        return false;
+	}
+}
+
+bool network_send_fob(enum fobSignal signal) {
+	if (WiFi.status() != WL_CONNECTED) {
+        Serial.println("WiFi not connected. Cannot send UDP.");
+        return false;
+    }
+
+    // UDP integration to send packets on local network
+	udp.beginPacket(targetIP, udpPort);
+	udp.printf("FOB KEY PRESSED: %s\n", signal);
 
 	if (udp.endPacket() == 1) {
 		Serial.println("UDP packet sent sucessfully");

@@ -1,7 +1,7 @@
 #ifndef _FOB_H_
 #define _FOB_H_
 
-enum fobSignal {
+enum fobSignal { // each botton on fob
     sigA,
     sigB,
     sigC,
@@ -9,7 +9,7 @@ enum fobSignal {
     NONE
 };
 
-enum edgeType {
+enum edgeType { // create custom type to show edges
     EDGE_NONE = 0,
     EDGE_RISING,
     EDGE_FALLING
@@ -20,12 +20,9 @@ struct signalInfo {
     int pin;
 };
 
-// turns on/off pins, sets initialization flag
 void fob_init();
-void fob_cleanUp();
-
 // Returns one signal on the rising input of that button.
 // no debouncing logic needed. Nothing is returned on the falling edge
-enum fobSignal fob_listen();
+bool fob_listen(enum fobSignal *isPressed);
 
 #endif
