@@ -6,5 +6,6 @@
 void network_init(void);
 bool network_send_rfid(unsigned long tag);
 bool network_send_breakbeam(bool broken);
+bool network_send_accelerometer(bool hit);
 
 #endif

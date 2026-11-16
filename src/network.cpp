@@ -3,6 +3,7 @@
 #include <WiFiUdp.h>
 #include "network.h"
 #include "secrets.h"
+#include "hit_detector.h"
 
 // Networking settings
 static const char* ssid = SECRET_SSID;
@@ -57,6 +58,25 @@ bool network_send_breakbeam(bool broken) {
     // UDP integration to send packets on local network
 	udp.beginPacket(targetIP, udpPort);
 	udp.printf("BREAKBEAM STATUS:%s\n", broken ? "BROKEN" : "UNBROKEN");
+
+	if (udp.endPacket() == 1) {
+		Serial.println("UDP packet sent sucessfully");
+        return true;
+	} else {
+		Serial.println("UDP transmission failed");
+        return false;
+	}
+}
+
+bool network_send_accelerometer(bool hit) {
+	if (WiFi.status() != WL_CONNECTED) {
+        Serial.println("WiFi not connected. Cannot send UDP.");
+        return false;
+    }
+
+    // UDP integration to send packets on local network
+	udp.beginPacket(targetIP, udpPort);
+	udp.printf("HIT DETECTED:%s\n", hit ? "YES" : "NO");
 
 	if (udp.endPacket() == 1) {
 		Serial.println("UDP packet sent sucessfully");
