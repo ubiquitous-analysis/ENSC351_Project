@@ -56,6 +56,7 @@ bool network_send_rfid(unsigned long tag) {
 		xSemaphoreGive(udpMutex); // Always released
 		return success;
 	}
+	return false;
 }
 
 bool network_send_breakbeam(bool broken) {
@@ -75,6 +76,7 @@ bool network_send_breakbeam(bool broken) {
 		xSemaphoreGive(udpMutex); // Always released
 		return success;
 	}
+	return false;
 }
 
 bool network_send_hitDetector(bool hit) {
@@ -94,6 +96,7 @@ bool network_send_hitDetector(bool hit) {
 		xSemaphoreGive(udpMutex); // Always released
 		return success;
 	}
+	return false;
 }
 
 bool network_send_ultrasonic(const int distances[2]) {
@@ -113,6 +116,7 @@ bool network_send_ultrasonic(const int distances[2]) {
 		xSemaphoreGive(udpMutex); // Always released
 		return success;
 	}
+	return false;
 }
 
 bool network_send_fob(enum fobSignal signal) {
@@ -124,7 +128,7 @@ bool network_send_fob(enum fobSignal signal) {
 	if (xSemaphoreTake(udpMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
 		// UDP integration to send packets on local network
 		udp.beginPacket(targetIP, udpPort);
-		udp.printf("FOB KEY PRESSED: %s\n", signal);
+		udp.printf("FOB KEY PRESSED: %d\n", signal);
 
 		bool success = (udp.endPacket() == 1);
 		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
@@ -132,4 +136,5 @@ bool network_send_fob(enum fobSignal signal) {
 		xSemaphoreGive(udpMutex); // Always released
 		return success;
 	}
+	return false;
 }

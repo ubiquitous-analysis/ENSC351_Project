@@ -70,7 +70,7 @@ int ultrasonicWrapper::ultrasonicWrapper_readValues(int *distances){
     int S1hitCount = 0;
     int S2hitCount = 0;
 
-    while ((micros() - startingTime) > 1000000){
+    while ((micros() - startingTime) < 1000000){
 
         // Get the next values and update the calibrated distance
         int S1_measuredDistance =  s1.ultrasonic_getDistance();
