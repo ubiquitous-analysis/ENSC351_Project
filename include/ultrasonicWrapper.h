@@ -20,7 +20,7 @@ class ultrasonicWrapper : ultrasonicSensor{
         void ultrasonicWrapper_cleanupSensors();
         // continuously gets values from both sensors for 1s
         // returns 1 on detection, 0 on timeout, -1 on error
-        int ultrasonicWrapper_readValues(); 
+        int ultrasonicWrapper_readValues(int *distances); 
         double ultrasonicWrapper_S1_getCalibratedDistance();
         double ultrasonicWrapper_S2_getCalibratedDistance();
 
@@ -30,8 +30,5 @@ class ultrasonicWrapper : ultrasonicSensor{
         double s1_calibrated_distance;
         double s2_calibrated_distance;
 };
-
-void ultrasonic_init(void);
-bool ultrasonicScan(bool *isDetected);
 
 #endif

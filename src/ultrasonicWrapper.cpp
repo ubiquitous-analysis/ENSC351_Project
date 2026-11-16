@@ -8,10 +8,10 @@
 #define REPEAT_COUNT 2 // the number of times in a row the sensor has to get a reading to register it
 
 // Hardware pins
-static const int S1_PIN_MISO 23;
-static const int S1_PIN_MOSI 22;
-static const int S2_PIN_MISO 21;
-static const int S2_PIN_MOSI 19;
+static const int S1_PIN_MISO = 23;
+static const int S1_PIN_MOSI = 22;
+static const int S2_PIN_MISO = 21;
+static const int S2_PIN_MOSI = 19;
 
 void ultrasonicWrapper::ultrasonicWrapper_initialize(void){
     s1.ultrasonic_initialize(S1_PIN_MISO, S1_PIN_MOSI);
@@ -62,7 +62,7 @@ double ultrasonicWrapper::ultrasonicWrapper_S2_getCalibratedDistance(){
     return s2_calibrated_distance;
 }
 
-int ultrasonicWrapper::ultrasonicWrapper_readValues(){
+int ultrasonicWrapper::ultrasonicWrapper_readValues(int *distances){
     long long startingTime = micros(); // start the timer
     // initializes count values
     int S1errorCount = 0;
@@ -75,6 +75,9 @@ int ultrasonicWrapper::ultrasonicWrapper_readValues(){
         // Get the next values and update the calibrated distance
         int S1_measuredDistance =  s1.ultrasonic_getDistance();
         int S2_measuredDistance =  s2.ultrasonic_getDistance();
+
+        distances[0] = S1_measuredDistance;
+        distances[1] = S2_measuredDistance;
         
         // Use the detected values to set the counts
         if(S1_measuredDistance <= DETECTION_FRACTION * s1_calibrated_distance){
