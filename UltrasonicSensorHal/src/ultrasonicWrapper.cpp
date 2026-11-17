@@ -6,7 +6,7 @@
 #define DETECTION_FRACTION 0.95 // the percentage of the distance that has to be different from the normal sensor reading to detect
 #define ERROR_COEFFICIENT 2 // the amount further than the calibrated distance for the sensors to report an error
 #define REPEAT_COUNT 2 // the number of times in a row the sensor has to get a reading to register it
-#define CALIBRATION_RESOLOUTION 0.1 // 10 to the power of the number of decimal places that are kept when calibrating
+#define CALIBRATION_RESOLOUTION 1 // 10 to the power of the number of decimal places that are kept when calibrating
 
 void ultrasonicWrapper::ultrasonicWrapper_initialize(const int S1_PIN_MISO, const int S1_PIN_MOSI, const int S2_PIN_MISO, const int S2_PIN_MOSI){
     s1.ultrasonic_initialize(S1_PIN_MISO, S1_PIN_MOSI);

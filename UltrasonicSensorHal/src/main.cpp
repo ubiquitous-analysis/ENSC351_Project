@@ -13,6 +13,12 @@ void setup() {
     // s2.ultrasonic_initialize(21,19);
     w1.ultrasonicWrapper_initialize(23,22,21,19);
     delay(5000);
+    Serial.println("The current callibrated distances are: ");
+    Serial.println(w1.ultrasonicWrapper_S1_getCalibratedDistance());
+    Serial.println(w1.ultrasonicWrapper_S2_getCalibratedDistance());
+    if((w1.ultrasonicWrapper_S1_getCalibratedDistance() == -1) ||(w1.ultrasonicWrapper_S2_getCalibratedDistance() == -1) ){
+      delay(1000000000);
+    }
 }
 
 void loop() {

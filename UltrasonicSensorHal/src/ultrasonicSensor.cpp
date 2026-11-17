@@ -36,21 +36,23 @@ double ultrasonicSensor::ultrasonic_getDistance(){
     if(digitalRead(ECHO_pin) == HIGH){
       break;
     }
-    else if((timeoutStartTime - micros()) > TIMEOUT_US){
+    else if((micros() - timeoutStartTime) > TIMEOUT_US){
         return -1;
     }
   }
   // get the rising edge from the echo
   long long startingTime = micros();
+  // waiting for the falling edge to get the anount of time the value was high
   while(true){
     if(digitalRead(ECHO_pin) == LOW){
       break;
     }
-    else if((micros() - startingTime) > TIMEOUT_US){
+    else if((startingTime - micros()) > TIMEOUT_US){
+        Serial.println("Falling edge loop has timed out");
         return -1;
     }
   }
-  // get the falling edge from echo
+  // get the falling edge from echo 
   long long waitTime = micros() - startingTime;
   //interrupts(); //Allow interrupts again once values are done.
   return calculateDistance(waitTime);
