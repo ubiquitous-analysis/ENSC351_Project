@@ -1,7 +1,9 @@
 #include "ultrasonicWrapper.h"
 #include <Arduino.h>
+#include <cmath>
 
 #define CALIBRATED_COUNT 15
+#define CALIBRATION_RESOLUTION 0.1
 #define LEARNING_CONTANT 0.95 // the fraction of the previous value that is kept when calibrating
 #define DETECTION_FRACTION 0.95 // the percentage of the distance that has to be different from the normal sensor reading to detect
 #define ERROR_COEFFICIENT 2 // the amount further than the calibrated distance for the sensors to report an error
@@ -27,26 +29,28 @@ void ultrasonicWrapper::ultrasonicWrapper_cleanupSensors(){
 }
 
 void ultrasonicWrapper::ultrasonicWrapper_calibrateSensors(){
+    Serial.println("Starting Calibration");
     s1_calibrated_distance =  s1.ultrasonic_getDistance();
     s2_calibrated_distance =  s2.ultrasonic_getDistance();
     delayMicroseconds(50);
 
     int s1Count = 0;
     int s2Count = 0;
+    Serial.println("phase 2 of calibration");
 
     long long startingTime = micros(); // start the timer
-    while ((s1Count <= CALIBRATED_COUNT && s2Count <= CALIBRATED_COUNT) || ((micros() - startingTime) > 1000000)){
-        int S1_measuredDistance = s1.ultrasonic_getDistance();
-        int S2_measuredDistance = s2.ultrasonic_getDistance();
+    while ((s1Count < CALIBRATED_COUNT && s2Count < CALIBRATED_COUNT) && ((micros() - startingTime) < 1000000)){
+        double S1_measuredDistance = s1.ultrasonic_getDistance();
+        double S2_measuredDistance = s2.ultrasonic_getDistance();
         if (S1_measuredDistance == -1 || S2_measuredDistance == -1){continue;} // ignore errors
         // Get the next values and update the calibrated distance
         s1_calibrated_distance =  s1_calibrated_distance * LEARNING_CONTANT + (1-LEARNING_CONTANT)* S1_measuredDistance;
         s2_calibrated_distance =  s2_calibrated_distance * LEARNING_CONTANT + (1-LEARNING_CONTANT)* S2_measuredDistance;
         // Add to the counts in the value doesn't change, otherwise reset them
-        if (S1_measuredDistance == s1_calibrated_distance){ s1Count++;}
+        if (round(S1_measuredDistance * CALIBRATION_RESOLUTION) == round(s1_calibrated_distance * CALIBRATION_RESOLUTION)){ s1Count++;}
         else{s1Count= 0;}
         // Add to the counts in the value doesn't change, otherwise reset them
-        if (S2_measuredDistance == s2_calibrated_distance){ s2Count++;}
+        if (round(S2_measuredDistance * CALIBRATION_RESOLUTION) == round(s2_calibrated_distance * CALIBRATION_RESOLUTION)){ s2Count++;}
         else{s2Count= 0;}
         delayMicroseconds(50);
     }
@@ -73,33 +77,33 @@ int ultrasonicWrapper::ultrasonicWrapper_readValues(int *distances){
     while ((micros() - startingTime) < 1000000){
 
         // Get the next values and update the calibrated distance
-        int S1_measuredDistance =  s1.ultrasonic_getDistance();
-        int S2_measuredDistance =  s2.ultrasonic_getDistance();
+        double S1_measuredDistance =  s1.ultrasonic_getDistance();
+        double S2_measuredDistance =  s2.ultrasonic_getDistance();
 
         distances[0] = S1_measuredDistance;
         distances[1] = S2_measuredDistance;
         
         // Use the detected values to set the counts
-        if(S1_measuredDistance <= DETECTION_FRACTION * s1_calibrated_distance){
-            S1hitCount++;
-            S1errorCount = 0;
-        }
-        else if(S1_measuredDistance >= ERROR_COEFFICIENT * s1_calibrated_distance || S1_measuredDistance < 0){
+        if(S1_measuredDistance >= ERROR_COEFFICIENT * s1_calibrated_distance || S1_measuredDistance < 0){
             S1errorCount++;
             S1hitCount = 0;
+        }
+        else if(S1_measuredDistance <= DETECTION_FRACTION * s1_calibrated_distance){
+            S1hitCount++;
+            S1errorCount = 0;
         }
         else{
             S1errorCount = 0;
             S1hitCount = 0;
         }
         // same thing for the second sensor.
-        if(S2_measuredDistance <= DETECTION_FRACTION * s2_calibrated_distance){
-            S2hitCount++;
-            S2errorCount = 0;
-        }
-        else if(S2_measuredDistance >= ERROR_COEFFICIENT * s2_calibrated_distance || S2_measuredDistance < 0){
+        if(S2_measuredDistance >= ERROR_COEFFICIENT * s2_calibrated_distance || S2_measuredDistance < 0){
             S2errorCount++;
             S2hitCount = 0;
+        }
+        else if(S2_measuredDistance <= DETECTION_FRACTION * s2_calibrated_distance){
+            S2hitCount++;
+            S2errorCount = 0;
         }
         else{
             S2errorCount = 0;
@@ -108,8 +112,8 @@ int ultrasonicWrapper::ultrasonicWrapper_readValues(int *distances){
         // check to make sure value counts are right, then wait.
         if(S1errorCount >= REPEAT_COUNT || S2errorCount >= REPEAT_COUNT){return -1;};
         if(S1hitCount >= REPEAT_COUNT || S2hitCount >= REPEAT_COUNT){return 1;};
-        delayMicroseconds(50);
+        delayMicroseconds(500);
     }
-    return -1;
+    return 0;
 }
 
