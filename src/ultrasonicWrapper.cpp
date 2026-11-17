@@ -3,7 +3,7 @@
 #include <cmath>
 
 #define CALIBRATED_COUNT 15
-#define CALIBRATION_RESOLUTION 0.1
+#define CALIBRATION_RESOLUTION 10.0
 #define LEARNING_CONTANT 0.95 // the fraction of the previous value that is kept when calibrating
 #define DETECTION_FRACTION 0.95 // the percentage of the distance that has to be different from the normal sensor reading to detect
 #define ERROR_COEFFICIENT 2 // the amount further than the calibrated distance for the sensors to report an error
@@ -32,7 +32,7 @@ void ultrasonicWrapper::ultrasonicWrapper_calibrateSensors(){
     Serial.println("Starting Calibration");
     s1_calibrated_distance =  s1.ultrasonic_getDistance();
     s2_calibrated_distance =  s2.ultrasonic_getDistance();
-    delayMicroseconds(50);
+    vTaskDelay(pdMS_TO_TICKS(30));
 
     int s1Count = 0;
     int s2Count = 0;
@@ -52,7 +52,7 @@ void ultrasonicWrapper::ultrasonicWrapper_calibrateSensors(){
         // Add to the counts in the value doesn't change, otherwise reset them
         if (round(S2_measuredDistance * CALIBRATION_RESOLUTION) == round(s2_calibrated_distance * CALIBRATION_RESOLUTION)){ s2Count++;}
         else{s2Count= 0;}
-        delayMicroseconds(50);
+        vTaskDelay(pdMS_TO_TICKS(30));
     }
     Serial.println("Ultrasonic Sensor Calibration Complete!");
     return;

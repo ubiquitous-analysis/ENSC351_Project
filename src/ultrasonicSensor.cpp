@@ -23,7 +23,7 @@ void ultrasonicSensor::ultrasonic_cleanup(){
 double ultrasonicSensor::ultrasonic_getDistance(){
   assert(isInitialized);
   // IMPORTANT - there should not be less than 50us in between the rising edges of the get distance calls.
-      Serial.println("getting distance,");
+    //  Serial.println("getting distance,");
 
   outputPulse(50,TRIG_pin);
 
@@ -34,7 +34,7 @@ double ultrasonicSensor::ultrasonic_getDistance(){
     if(digitalRead(ECHO_pin) == HIGH){
       break;
     }
-    else if((timeoutStartTime - micros()) > TIMEOUT_US){
+    else if((micros() - timeoutStartTime) > TIMEOUT_US){
         return -1;
     }
   }

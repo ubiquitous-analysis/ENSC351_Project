@@ -17,7 +17,7 @@ static SemaphoreHandle_t udpMutex = NULL;
 
 void network_init(void) {
     // Initializing serial monitor
-	Serial.begin(9600);
+	Serial.begin(115200);
 
 	// Initializing Mutex
 	udpMutex = xSemaphoreCreateMutex();

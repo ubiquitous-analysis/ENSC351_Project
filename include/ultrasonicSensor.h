@@ -1,7 +1,7 @@
 #ifndef _ULTRASONIC_H_
 #define _ULTRASONIC_H_
 
-#define TIMEOUT_US 1000000
+#define TIMEOUT_US 30000
 
 class ultrasonicSensor{
     public:
