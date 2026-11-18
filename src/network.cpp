@@ -68,7 +68,7 @@ bool network_send_breakbeam(bool broken) {
 	if (xSemaphoreTake(udpMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
 		// UDP integration to send packets on local network
 		udp.beginPacket(targetIP, udpPort);
-		udp.printf("BREAKBEAM STATUS:%s\n", broken ? "BROKEN" : "UNBROKEN");
+		udp.printf("BREAKBEAM STATUS:%s\n", broken ? "UNBROKEN" : "BROKEN");
 
 		bool success = (udp.endPacket() == 1);
 		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
