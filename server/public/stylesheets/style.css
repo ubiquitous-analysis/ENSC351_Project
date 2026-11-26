@@ -1,0 +1,36 @@
+html, body {
+	margin: 0;
+	height: 100%;
+	background: #000;
+	overflow: hidden;
+}
+
+#board {
+	display: flex;
+	height: 100vh;
+	height: 100dvh;
+	align-items: center;
+	justify-content: space-around;
+	flex-direction: row;
+}
+
+.score {
+	font-family: "Courier New", monospace;
+	font-weight: bold;
+	font-size: 35vw;
+	line-height: 1;
+}
+
+#red  { color: #ff2a2a; }
+#blue { color: #2a6bff; }
+
+/* Landscape */
+@media (orientation: landscape) {
+  .score { font-size: min(85vh, 40vw); }
+}
+
+/* Portrait */
+@media (orientation: portrait) {
+  #board { flex-direction: column; }
+  .score { font-size: min(60vh, 70vw); }
+}

@@ -1,0 +1,8 @@
+{
+	"name": "scoreboard-server",
+	"version": "0.0.1",
+	"description": "Scoreboard Node.js server.",
+	"dependencies": {
+		"mime": "~1.2.7"
+	}
+}
