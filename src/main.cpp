@@ -72,7 +72,7 @@ void setup() {
 	hitDetector_init();
 	w1.ultrasonicWrapper_initialize();
 	Serial.println("INITIALIZATION COMPLETE!!!");
-//	fob_init();
+	fob_init();
 
 	// Initialize background tasks
 	// xTaskCreate(funcname, taskname, stacksize, taskparameters, priority, taskhandle)
@@ -80,7 +80,7 @@ void setup() {
     xTaskCreate(breakbeamTask,   "Breakbeam",   2048, NULL, 1, NULL);
     xTaskCreate(hitDetectorTask, "HitDetector", 2048, NULL, 1, NULL);
     xTaskCreate(ultrasonicTask,  "Ultrasonic",  3072, NULL, 1, NULL);
-  //  xTaskCreate(fobTask,         "Fob",         2048, NULL, 1, NULL);
+    xTaskCreate(fobTask,         "Fob",         2048, NULL, 1, NULL);
 }
 
 void loop() {

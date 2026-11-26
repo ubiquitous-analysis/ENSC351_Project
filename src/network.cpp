@@ -51,7 +51,7 @@ bool network_send_rfid(unsigned long tag) {
 		udp.printf("RFID_TAG:%lu\n", tag);
 
 		bool success = (udp.endPacket() == 1);
-		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
+		Serial.println(success ? "RFID: UDP packet sent successfully" : "RFID: UDP transmission failed");
 
 		xSemaphoreGive(udpMutex); // Always released
 		return success;
@@ -68,10 +68,10 @@ bool network_send_breakbeam(bool broken) {
 	if (xSemaphoreTake(udpMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
 		// UDP integration to send packets on local network
 		udp.beginPacket(targetIP, udpPort);
-		udp.printf("BREAKBEAM STATUS:%s\n", broken ? "UNBROKEN" : "BROKEN");
+		udp.printf("BREAKBEAM STATUS:%s\n", broken ? "BROKEN" : "UNBROKEN");
 
 		bool success = (udp.endPacket() == 1);
-		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
+		Serial.println(success ? "BB: UDP packet sent successfully" : "BB: UDP transmission failed");
 		
 		xSemaphoreGive(udpMutex); // Always released
 		return success;
@@ -91,7 +91,7 @@ bool network_send_hitDetector(bool hit) {
 		udp.printf("HIT DETECTED:%s\n", hit ? "YES" : "NO");
 
 		bool success = (udp.endPacket() == 1);
-		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
+		Serial.println(success ? "Accel: UDP packet sent successfully" : "Accel: UDP transmission failed");
 		
 		xSemaphoreGive(udpMutex); // Always released
 		return success;
@@ -111,7 +111,7 @@ bool network_send_ultrasonic(const int distances[2]) {
 		udp.printf("ULTRASONIC SENSOR DISTANCES:%d, %d\n", distances[0], distances[1]);
 
 		bool success = (udp.endPacket() == 1);
-		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
+		Serial.println(success ? "US: UDP packet sent successfully" : "US: UDP transmission failed");
 		
 		xSemaphoreGive(udpMutex); // Always released
 		return success;
@@ -131,7 +131,7 @@ bool network_send_fob(enum fobSignal signal) {
 		udp.printf("FOB KEY PRESSED: %d\n", signal);
 
 		bool success = (udp.endPacket() == 1);
-		Serial.println(success ? "UDP packet sent successfully" : "UDP transmission failed");
+		Serial.println(success ? "FOB: UDP packet sent successfully" : "FOB: UDP transmission failed");
 		
 		xSemaphoreGive(udpMutex); // Always released
 		return success;
